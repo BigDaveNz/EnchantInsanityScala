@@ -7,11 +7,11 @@ import net.minecraft.entity.player.EntityPlayer
  */
 trait Ownable {
 
-  private var player: EntityPlayer
+  private var owner: EntityPlayer = null
 
-  var getOwner = player
+  var getOwner = owner
 
-  def setOwner(owner: EntityPlayer) {
-    player = owner
+  def setOwner(player: EntityPlayer) {
+    owner = player
   }
 }

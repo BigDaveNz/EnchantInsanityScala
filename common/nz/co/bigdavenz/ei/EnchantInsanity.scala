@@ -1,6 +1,6 @@
 package nz.co.bigdavenz.ei
 
-import cpw.mods.fml.common.{Mod,SidedProxy}
+import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
 import cpw.mods.fml.common.event.FMLServerStartingEvent
@@ -18,8 +18,6 @@ import nz.co.bigdavenz.ei.client.chat.Communicate
 
 @Mod(modid = Reference.modId, name = Reference.modName, version = "0.0.1", modLanguage = "scala")
 object EnchantInsanity {
-
-  //@SidedProxy(clientSide = Reference.clientProxy, serverSide = Reference.commonProxy)
 
   @EventHandler def serverStarting(event: FMLServerStartingEvent) {
     event.registerServerCommand(CommandProcessor)

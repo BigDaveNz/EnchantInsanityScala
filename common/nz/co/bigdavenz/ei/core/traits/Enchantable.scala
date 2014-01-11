@@ -5,8 +5,40 @@ package nz.co.bigdavenz.ei.core.traits
  */
 
 import nz.co.bigdavenz.ei.enchant.Enchantment
+import nz.co.bigdavenz.ei.client.chat.Communicate
+import scala.collection.mutable.Map
 
-trait Enchantable extends Nameable{
+trait Enchantable extends Nameable with Ownable {
 
-  var enchantmentList: List[Enchantment]
+  private val enchantmentMap: Map[String, Enchantment] = Map.empty[String, Enchantment]
+  var maxEnchantments = 1
+
+  def addToMaxEnchants() {
+    if (maxEnchantments <= 10) {
+      maxEnchantments += 1
+    } else {
+      Communicate.withConsole("Attempted to set Max Enchantments to more then 10")
+    }
+  }
+
+  def setMaxEnchanments(max: Int): Boolean = {
+    if (max <= 10) {
+      maxEnchantments = max
+      true
+    } else {
+      false
+    }
+  }
+
+  def addEnchantmentToList(enchantment: Enchantment) {
+    if (enchantmentMap.size < maxEnchantments) {
+      enchantmentMap.put(enchantment.getName, enchantment)
+    } else {
+      Communicate.withConsole("Attempted to add an enchanment, when only " + maxEnchantments + "was allowed")
+    }
+  }
+
+  def removeEnchantment(enchantment: Enchantment) {
+    enchantmentMap.remove(enchantment.getName)
+  }
 }

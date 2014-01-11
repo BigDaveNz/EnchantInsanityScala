@@ -7,7 +7,7 @@ import nz.co.bigdavenz.ei.client.chat.Communicate
  */
 object ItemInitializer {
 
-  def init(){
+  def init() {
     Communicate.withClient("Item's Initialized")
   }
 }
