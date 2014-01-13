@@ -1,17 +1,19 @@
-package nz.co.bigdavenz.ei.client.chat
+package nz.co.bigdavenz.ei.core.chat
 
 import net.minecraft.util.{ChatComponentText, IChatComponent}
 import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayer
 import cpw.mods.fml.common.FMLLog
+import net.minecraft.client.Minecraft
+import net.minecraft.server.MinecraftServer
 
 /**
  * Created by David J. Dudson on 10/01/14.
+ *
+ * Used for communicating with client server and player
  */
 object Communicate {
-
-  var EIChatComponent: IChatComponent = createEIChatComponent(Reference.modId.toUpperCase);
 
   def withCommandSender(player: ICommandSender, message: String) {
     withPlayer(player.asInstanceOf[EntityPlayer], message)
@@ -22,7 +24,7 @@ object Communicate {
   }
 
   private def createChatComponent(message: String): IChatComponent = {
-    EIChatComponent.func_150257_a(new ChatComponentText(message))
+    createEIChatComponent(Reference.modId.toUpperCase).func_150257_a(new ChatComponentText(message))
   }
 
   def withPlayer(player: EntityPlayer, message: String) {
@@ -30,11 +32,11 @@ object Communicate {
   }
 
   def withAllPlayers(message: String) {
-    Reference.configManager.func_148539_a(createChatComponent(message))
+    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent(message))
   }
 
   def withClient(message: String) {
-    withPlayer(Reference.mc.thePlayer, message)
+    withPlayer(Minecraft.getMinecraft.thePlayer, message)
   }
 
   def withPlayerDebug(player: EntityPlayer, message: String, debugType: String = "General") {
@@ -50,9 +52,7 @@ object Communicate {
   }
 
   def withConsole(message: String) {
-    if (Reference.debugMode) {
       FMLLog.info("[EI] " + message)
-    }
   }
 
 }

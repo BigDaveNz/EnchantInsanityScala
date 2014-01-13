@@ -1,8 +1,5 @@
 package nz.co.bigdavenz.ei.lib
 
-import net.minecraft.client.Minecraft
-import net.minecraft.server.MinecraftServer
-import cpw.mods.fml.common.FMLCommonHandler
 
 /**
  * Created by David J. Dudson on 5/01/14.
@@ -14,11 +11,6 @@ object Reference {
   val modVersion: String = "0.0.1"
 
   var debugMode = true
-
-  val mc: Minecraft = Minecraft.getMinecraft
-  val configManager = MinecraftServer.getServer.getConfigurationManager
-  val textureManager = mc.getTextureManager
-  val eventBus = FMLCommonHandler.instance().bus()
 
   val clientProxy = "nz.co.bigdavenz.core.proxy.ClientProxy"
   val commonProxy = "nz.co.bigdavenz.core.proxy.CommonProxy"

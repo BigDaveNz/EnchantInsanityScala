@@ -5,8 +5,8 @@ package nz.co.bigdavenz.ei.core.traits
  */
 
 import nz.co.bigdavenz.ei.enchant.Enchantment
-import nz.co.bigdavenz.ei.client.chat.Communicate
 import scala.collection.mutable.Map
+import nz.co.bigdavenz.ei.core.chat.Communicate
 
 trait Enchantable extends Nameable with Ownable {
 

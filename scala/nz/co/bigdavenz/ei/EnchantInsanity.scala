@@ -5,7 +5,7 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
 import cpw.mods.fml.common.event.FMLServerStartingEvent
 import nz.co.bigdavenz.ei.processors.CommandProcessor
-import nz.co.bigdavenz.ei.client.chat.Communicate
+import nz.co.bigdavenz.ei.core.chat.Communicate
 
 /**
  * Enchant Insanity

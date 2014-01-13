@@ -2,31 +2,32 @@ package nz.co.bigdavenz.ei.processors
 
 import cpw.mods.fml.relauncher.{SideOnly, Side}
 import nz.co.bigdavenz.ei.lib.Reference
-import net.minecraft.command.{CommandBase, ICommandSender, WrongUsageException}
+import net.minecraft.command.{ICommand, CommandBase, ICommandSender, WrongUsageException}
 import net.minecraft.entity.player.EntityPlayerMP
-import nz.co.bigdavenz.ei.client.chat.Communicate
+import nz.co.bigdavenz.ei.core.chat.Communicate
 
 /**
  * Created by David J. Dudson on 6/01/14.
  */
 object CommandProcessor extends CommandBase {
 
-  @Override def getCommandName = {
+  def getCommandName = {
     Reference.modId
   }
 
-  @Override
+  override def canCommandSenderUseCommand(commandSender: ICommandSender): Boolean = {
+    true
+  }
+
   @SideOnly(Side.CLIENT)
-  def processCommand(commandSender: ICommandSender, args: Array[Nothing]) {
+  def processCommand(commandSender: ICommandSender, args: Array[String]) {
     if (args.length > 0) {
       val commandName: String = args(0)
       System.arraycopy(args, 1, args, 0, args.length - 1)
       commandName.toLowerCase match {
-        case "checkskill" =>
-          processSkillCommand(commandSender, args)
         case "debugtoggle" =>
           Reference.debugMode = !Reference.debugMode
-          (commandSender, "Debug mode toggled to: " + Reference.debugMode)
+          Communicate.withCommandSender(commandSender, "Debug mode toggled to: " + Reference.debugMode)
         case "debugcheck" =>
           Communicate.withCommandSender(commandSender, "Debug mode is: " + Reference.debugMode)
         case "version" =>
@@ -48,7 +49,9 @@ object CommandProcessor extends CommandBase {
     else throw new WrongUsageException("Invalid Usage [ei checkskill (skillname)]", new Array[Nothing](0))
   }
 
-  def getCommandUsage(commandSender: ICommandSender): Boolean = true
+  def getCommandUsage(var1: ICommandSender): String = "ei.command.usage:ei "
 
-  def compareTo(o: Object): Int = 0
+  override def compareTo(par1Obj: ICommand): Int = {
+    this.compareTo(par1Obj.asInstanceOf[ICommand])
+  }
 }

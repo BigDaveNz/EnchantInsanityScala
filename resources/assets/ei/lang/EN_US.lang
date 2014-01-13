@@ -9,3 +9,6 @@ ei.block:enchantedPickaxe = EnchantedPickaxe
 
 #Enchantment Localizations
 
+#Command Localisations
+
+ei.command.usage:ei = ei [Command Name]
