@@ -2,6 +2,7 @@ package nz.co.bigdavenz.ei.item
 
 import net.minecraft.item.Item
 import cpw.mods.fml.common.registry.GameRegistry
+import net.minecraft.init.Items
 
 /**
  * Created by David J. Dudson on 11/01/14.
@@ -10,9 +11,13 @@ import cpw.mods.fml.common.registry.GameRegistry
  */
 object EiItems {
 
-  def registerItems() {
-    GameRegistry.registerItem(enchantedPickaxe, "Enchanted Pickaxe")
+  var enchantedPickaxe: Item = new EnchantedPick(Items.wooden_pickaxe).setUnlocalizedName("Enchanted Pickaxe")
+
+  def init() {
+    registerItem(enchantedPickaxe)
   }
 
-  final val enchantedPickaxe: Item = Item.field_150901_e.getObject("Enchanted Pickaxe").asInstanceOf[Item]
+  def registerItem(item: Item) {
+    GameRegistry.registerItem(item, item.getUnlocalizedName)
+  }
 }
