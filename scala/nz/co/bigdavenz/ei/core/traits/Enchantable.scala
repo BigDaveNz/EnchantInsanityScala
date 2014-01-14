@@ -2,13 +2,15 @@ package nz.co.bigdavenz.ei.core.traits
 
 /**
  * Created by David J. Dudson on 11/01/14.
+ *
+ * Allows item /block to be enchatable
  */
 
 import nz.co.bigdavenz.ei.enchant.Enchantment
 import scala.collection.mutable.Map
 import nz.co.bigdavenz.ei.core.chat.Communicate
 
-trait Enchantable extends Nameable with Ownable {
+trait Enchantable extends Ownable with Nameable {
 
   private val enchantmentMap: Map[String, Enchantment] = Map.empty[String, Enchantment]
   var maxEnchantments = 1
@@ -21,7 +23,7 @@ trait Enchantable extends Nameable with Ownable {
     }
   }
 
-  def setMaxEnchanments(max: Int): Boolean = {
+  def setMaxEnchantments(max: Int): Boolean = {
     if (max <= 10) {
       maxEnchantments = max
       true

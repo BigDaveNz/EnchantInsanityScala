@@ -10,6 +10,6 @@ import nz.co.bigdavenz.ei.item.EiItems
  * Creative tab used for Enchant Insanity
  */
 class CreativeTabEi(label: String) extends CreativeTabs(label) {
-  def getTabIconItem: Item = EiItems.enchantedPickaxe
+  def getTabIconItem: Item = EiItems.eiTool
 
 }

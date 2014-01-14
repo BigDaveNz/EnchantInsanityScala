@@ -22,8 +22,10 @@ import nz.co.bigdavenz.ei.creativeTabs.CreativeTabEi
 @Mod(modid = "ei", name = "Enchant Insanity", version = "0.0.1", modLanguage = "scala")
 object EnchantInsanity {
   final val tabEi: CreativeTabs = new CreativeTabEi(Reference.modName) {
+
     @EventHandler def serverStarting(event: FMLServerStartingEvent) {
       event.registerServerCommand(CommandProcessor)
+      Communicate.withConsoleDebug("Command Processor Registered")
     }
 
     @EventHandler def preInit(event: FMLPreInitializationEvent) {
