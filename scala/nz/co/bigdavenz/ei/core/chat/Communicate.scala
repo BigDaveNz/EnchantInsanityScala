@@ -20,7 +20,7 @@ object Communicate {
   }
 
   private def createEIChatComponent(string: String): IChatComponent = {
-    new ChatComponentText(string)
+    new ChatComponentText("[" + string + "] ")
   }
 
   private def createChatComponent(message: String): IChatComponent = {
@@ -52,7 +52,7 @@ object Communicate {
   }
 
   def withConsole(message: String) {
-      FMLLog.info("[EI] " + message)
+    FMLLog.info("[EI] " + message)
   }
 
 }

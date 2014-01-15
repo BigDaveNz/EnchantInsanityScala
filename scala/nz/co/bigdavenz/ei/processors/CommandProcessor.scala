@@ -5,12 +5,15 @@ import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.command.{ICommand, CommandBase, ICommandSender, WrongUsageException}
 import net.minecraft.entity.player.EntityPlayerMP
 import nz.co.bigdavenz.ei.core.chat.Communicate
-import nz.co.bigdavenz.ei.item.EiItems
-import net.minecraft.item.{Item, ItemTool, ItemStack}
+import nz.co.bigdavenz.ei.item.EiItemTool
+import net.minecraft.item.{Item, ItemStack}
 
 /**
  * Created by David J. Dudson on 6/01/14.
+ *
+ * processes all commands
  */
+
 object CommandProcessor extends CommandBase {
 
   def getCommandName = {
@@ -47,9 +50,9 @@ object CommandProcessor extends CommandBase {
     val player = commandSender.asInstanceOf[EntityPlayerMP]
     val convertedTool: ItemStack = player.inventory.getCurrentItem
     val currentSlot: Int = player.inventory.currentItem
-    val tool: Item = EiItems.eiTool.createEiTool(convertedTool.getItem.asInstanceOf[ItemTool], player).asInstanceOf[Item]
+    val item: Item = EiItemTool.createEiTool(convertedTool.getItem, player).asInstanceOf[Item]
     player.inventory.decrStackSize(currentSlot, 1)
-    player.inventory.setInventorySlotContents(currentSlot, new ItemStack(tool))
+    player.inventory.setInventorySlotContents(currentSlot, new ItemStack(item))
 
 
   }
