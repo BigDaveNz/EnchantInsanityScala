@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer
 import cpw.mods.fml.common.FMLLog
 import net.minecraft.client.Minecraft
 import net.minecraft.server.MinecraftServer
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 
 /**
  * Created by David J. Dudson on 10/01/14.
@@ -35,6 +36,7 @@ object Communicate {
     MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent(message))
   }
 
+  @SideOnly(Side.CLIENT)
   def withClient(message: String) {
     withPlayer(Minecraft.getMinecraft.thePlayer, message)
   }
