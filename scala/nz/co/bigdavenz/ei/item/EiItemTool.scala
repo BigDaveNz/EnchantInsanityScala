@@ -16,21 +16,23 @@ import nz.co.bigdavenz.ei.EnchantInsanity
 
 object EiItemTool {
 
-  def createEiTool(consumedTool: Item, owner: EntityPlayer): EiItemTool = {
+  def createEiTool(consumedToolStack: ItemStack, owner: EntityPlayer): ItemStack = {
 
-    var newTool: EiItemTool = EiItems.eiTool
+    val newTool = EiItems.eiTool
 
-    if (consumedTool.isInstanceOf[ItemTool]) {
+    if (consumedToolStack.getItem.isInstanceOf[ItemTool]) {
+      Communicate.withConsoleDebug("EI Tool being created", "ToolCreation")
       newTool.initialised = true
-      newTool.consumedTool = consumedTool.asInstanceOf[ItemTool]
-      newTool.consumedToolStack = new ItemStack(consumedTool)
+      newTool.consumedTool = consumedToolStack.getItem.asInstanceOf[ItemTool]
+      newTool.consumedToolStack = consumedToolStack
       newTool.setOwner(owner)
       newTool.maxEnchantments = newTool.consumedTool.func_150913_i().getHarvestLevel
-      newTool.setMaxDamage(consumedTool.getMaxDamage)
-      newTool.setDamage(new ItemStack(newTool), newTool.consumedToolStack.getItemDamage)
-      newTool.setUnlocalizedName(newTool.getOwnerName + "'s Enchanted " + consumedTool.getUnlocalizedName)
+      newTool.setMaxDamage(newTool.consumedTool.getMaxDamage)
+      newTool.setUnlocalizedName(newTool.getOwnerName + "'s Enchanted " + newTool.consumedToolStack.getDisplayName)
       newTool.onToolTypeCreate
-      newTool
+      val newToolStack: ItemStack = new ItemStack(EiItems.eiTool)
+      newToolStack.setItemDamage(newTool.consumedToolStack.getItemDamage)
+      newToolStack
     } else {
       null
     }
@@ -44,7 +46,7 @@ class EiItemTool extends Item with Enchantable {
   var consumedToolStack: ItemStack = null
   var initialised = false
   var droppable = true
-  val validToolTypes: List[String] = List("axe", "pick", "spade", "hoe", "sword")
+  val validToolTypes: List[String] = List("axe", "pick", "shovel", "hoe", "sword")
 
   def EiItemTool() {
     this.setUnlocalizedName("EIToolUnregistered")
@@ -83,6 +85,9 @@ class EiItemTool extends Item with Enchantable {
     this.getToolType match {
       case "pick" => this.setTextureName("pick")
       case "spade" => this.setTextureName("shovel")
+      case "hoe" => this.setTextureName("hoe")
+      case "sword" => this.setTextureName("sword")
+      case "axe" => this.setTextureName("axe")
       case _ => this.setTextureName("tool")
     }
   }

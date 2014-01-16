@@ -6,7 +6,7 @@ import net.minecraft.command.{ICommand, CommandBase, ICommandSender, WrongUsageE
 import net.minecraft.entity.player.EntityPlayerMP
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.item.EiItemTool
-import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.item.ItemStack
 
 /**
  * Created by David J. Dudson on 6/01/14.
@@ -38,21 +38,25 @@ object CommandProcessor extends CommandBase {
         case "version" =>
           Communicate.withCommandSender(commandSender, "Version: " + Reference.modVersion)
         case "convert" =>
-          convertTool(commandSender)
+          convert(commandSender)
         case _ =>
           throw new WrongUsageException("Invalid Usage [skill|leaderboard|debugtoggle|debugcheck|version|convert]", new Array[Nothing](0))
       }
     }
   }
 
-
-  def convertTool(commandSender: ICommandSender) {
+  def convert(commandSender: ICommandSender) {
     val player = commandSender.asInstanceOf[EntityPlayerMP]
-    val convertedTool: ItemStack = player.inventory.getCurrentItem
+    val converted: ItemStack = player.inventory.getCurrentItem
     val currentSlot: Int = player.inventory.currentItem
-    val item: Item = EiItemTool.createEiTool(convertedTool.getItem, player).asInstanceOf[Item]
+
+    convertTool(player, converted, currentSlot)
+  }
+
+  def convertTool(player: EntityPlayerMP, converted: ItemStack, currentSlot: Int) {
+    val toolStack: ItemStack = EiItemTool.createEiTool(converted, player)
     player.inventory.decrStackSize(currentSlot, 1)
-    player.inventory.setInventorySlotContents(currentSlot, new ItemStack(item))
+    player.inventory.setInventorySlotContents(currentSlot, toolStack)
 
 
   }
