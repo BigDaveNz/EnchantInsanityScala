@@ -2,11 +2,11 @@ package nz.co.bigdavenz.ei.processors
 
 import cpw.mods.fml.relauncher.{SideOnly, Side}
 import nz.co.bigdavenz.ei.lib.Reference
-import net.minecraft.command.{ICommand, CommandBase, ICommandSender, WrongUsageException}
+import net.minecraft.command.{CommandBase, ICommandSender, WrongUsageException}
 import net.minecraft.entity.player.EntityPlayerMP
 import nz.co.bigdavenz.ei.core.chat.Communicate
-import nz.co.bigdavenz.ei.item.EiItemTool
-import net.minecraft.item.ItemStack
+import nz.co.bigdavenz.ei.item.EiItems
+import net.minecraft.item.{ItemTool, ItemStack}
 
 /**
  * Created by David J. Dudson on 6/01/14.
@@ -50,20 +50,26 @@ object CommandProcessor extends CommandBase {
     val converted: ItemStack = player.inventory.getCurrentItem
     val currentSlot: Int = player.inventory.currentItem
 
-    convertTool(player, converted, currentSlot)
+    converted.getItem match {
+
+      case _: ItemTool => {
+        convertTool(player, converted, currentSlot)
+      }
+      case _ =>
+        Communicate.withPlayer(player, "Cannot convert Item: Invalid Type")
+
+    }
   }
 
   def convertTool(player: EntityPlayerMP, converted: ItemStack, currentSlot: Int) {
-    val toolStack: ItemStack = EiItemTool.createEiTool(converted, player)
-    player.inventory.decrStackSize(currentSlot, 1)
-    player.inventory.setInventorySlotContents(currentSlot, toolStack)
+    val toolStack: ItemStack = EiItems.createEiTool(converted, player)
+    if (toolStack != null) {
+      player.inventory.decrStackSize(currentSlot, 1)
+      player.inventory.setInventorySlotContents(currentSlot, toolStack)
+    }
 
 
   }
 
   def getCommandUsage(var1: ICommandSender): String = "ei.command.usage:ei "
-
-  override def compareTo(par1Obj: ICommand): Int = {
-    this.compareTo(par1Obj.asInstanceOf[ICommand])
-  }
 }

@@ -1,11 +1,17 @@
 #Item Localizations
 
-ei.block:enchantedPickaxe = EnchantedPickaxe
+item.eipick.name=Enchanted Pickaxe
+item.eiaxe.name=Enchanted Axe
+item.eihoe.name=Enchanted Hoe
+item.eishovel.name=Enchanted Shovel
 
 
 #Block Localizations
 
 #Skill Localizations
+
+#Creative Tab Localizations
+itemGroup.tabEi=Enchant Insanity
 
 #Enchantment Localizations
 

@@ -3,6 +3,7 @@ package nz.co.bigdavenz.ei.creativeTabs
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
 import nz.co.bigdavenz.ei.item.EiItems
+import nz.co.bigdavenz.ei.item.tools.EnchantedPickaxe
 
 /**
  * Created by David J. Dudson on 13/01/14.
@@ -10,6 +11,5 @@ import nz.co.bigdavenz.ei.item.EiItems
  * Creative tab used for Enchant Insanity
  */
 class CreativeTabEi(label: String) extends CreativeTabs(label) {
-  def getTabIconItem: Item = EiItems.eiTool
-
+  def getTabIconItem: Item = new EnchantedPickaxe().setUnlocalizedName("eipick")
 }

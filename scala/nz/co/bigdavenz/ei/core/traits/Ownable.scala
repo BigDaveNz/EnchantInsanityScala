@@ -15,7 +15,7 @@ trait Ownable {
   var getOwnerName = owner
 
   def setOwner(player: EntityPlayer) {
-    owner = player.getDisplayName
+    owner = player.getCommandSenderName
   }
 
   def getOwner: EntityPlayer = {

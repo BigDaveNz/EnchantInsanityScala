@@ -6,19 +6,19 @@ package nz.co.bigdavenz.ei.core.traits
  *
  * Trait that allows Object to hold Experience values.
  */
-trait Levelable {
+
+
+trait Levelable extends Ownable{
 
   private var xp: Float = 0.0f
   val getLevel: Int = calculateLevel()
-  private var hasCheated: Boolean = false
 
-  private var expPower: Double = 2
-  private var expMultiplier: Double = 10
+  private var expPower: Double = 1.0
+  private var expMultiplier: Double = 1.0
 
-  def addXp(amount: Int, cheated: Boolean = false) {
+  def addXp(amount: Int, xpType:String) {
     val previousLevel = getLevel
     xp += amount
-    hasCheated = cheated
     val currentLevel = getLevel
     if (previousLevel != currentLevel) {
       onLevelUpdate()

@@ -7,9 +7,6 @@ package nz.co.bigdavenz.ei.player
  * Contains Information about Players using EI, Including Skill/LevelData
  */
 
-object EiPlayerData {
-
-}
 
 class EiPlayerData {
 
