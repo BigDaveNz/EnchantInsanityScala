@@ -11,5 +11,5 @@ import nz.co.bigdavenz.ei.item.tools.EnchantedPickaxe
  * Creative tab used for Enchant Insanity
  */
 class CreativeTabEi(label: String) extends CreativeTabs(label) {
-  def getTabIconItem: Item = new EnchantedPickaxe().setUnlocalizedName("eipick")
+  def getTabIconItem: Item = EiItems.eiPickaxe
 }

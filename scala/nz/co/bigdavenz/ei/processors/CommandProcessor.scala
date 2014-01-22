@@ -5,8 +5,8 @@ import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.command.{CommandBase, ICommandSender, WrongUsageException}
 import net.minecraft.entity.player.EntityPlayerMP
 import nz.co.bigdavenz.ei.core.chat.Communicate
-import nz.co.bigdavenz.ei.item.EiItems
-import net.minecraft.item.{ItemTool, ItemStack}
+import nz.co.bigdavenz.ei.item.{EiItem, EiItems}
+import net.minecraft.item.{ItemShears, ItemTool, ItemStack}
 
 /**
  * Created by David J. Dudson on 6/01/14.
@@ -46,18 +46,32 @@ object CommandProcessor extends CommandBase {
   }
 
   def convert(commandSender: ICommandSender) {
+
     val player = commandSender.asInstanceOf[EntityPlayerMP]
-    val converted: ItemStack = player.inventory.getCurrentItem
-    val currentSlot: Int = player.inventory.currentItem
 
-    converted.getItem match {
+    if (player.inventory.getCurrentItem == null) {
+      Communicate.withPlayer(player,"What are you trying to do??? Convert air!")
+    } else {
+      val converted: ItemStack = player.inventory.getCurrentItem
+      val currentSlot: Int = player.inventory.currentItem
 
-      case _: ItemTool => {
-        convertTool(player, converted, currentSlot)
+
+      converted.getItem match {
+
+        case _: EiItem => {
+          Communicate.withPlayer(player, "This item has already been converted!")
+        }
+        case _: ItemShears => {
+          convertTool(player, converted, currentSlot)
+        }
+
+        case _: ItemTool => {
+          convertTool(player, converted, currentSlot)
+        }
+        case _ =>
+          Communicate.withPlayer(player, "Cannot convert Item: Invalid Type")
+
       }
-      case _ =>
-        Communicate.withPlayer(player, "Cannot convert Item: Invalid Type")
-
     }
   }
 
@@ -67,8 +81,6 @@ object CommandProcessor extends CommandBase {
       player.inventory.decrStackSize(currentSlot, 1)
       player.inventory.setInventorySlotContents(currentSlot, toolStack)
     }
-
-
   }
 
   def getCommandUsage(var1: ICommandSender): String = "ei.command.usage:ei "

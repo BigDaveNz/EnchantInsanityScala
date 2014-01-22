@@ -6,6 +6,7 @@ import nz.co.bigdavenz.ei.item.tools._
 import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.core.chat.Communicate
+import nz.co.bigdavenz.ei.EnchantInsanity
 
 /**
  * Created by David J. Dudson on 11/01/14.
@@ -14,11 +15,11 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
  */
 object EiItems {
 
-  val eiPickaxe = new EnchantedPickaxe().setUnlocalizedName("eipick")
-  val eiAxe = new EnchantedAxe().setUnlocalizedName("eiaxe")
-  val eiShovel = new EnchantedShovel().setUnlocalizedName("eishovel")
-  val eiHoe = new EnchantedHoe().setUnlocalizedName("eihoe")
-  val eiShears = new EnchantedShears().setUnlocalizedName("eishears")
+  var eiPickaxe = new EnchantedPickaxe().setUnlocalizedName("eipick")
+  var eiAxe = new EnchantedAxe().setUnlocalizedName("eiaxe")
+  var eiShovel = new EnchantedShovel().setUnlocalizedName("eishovel")
+  var eiHoe = new EnchantedHoe().setUnlocalizedName("eihoe")
+  var eiShears = new EnchantedShears().setUnlocalizedName("eishears")
 
   def init() {
     registerItem(eiPickaxe)
@@ -26,16 +27,15 @@ object EiItems {
     registerItem(eiShovel)
     registerItem(eiHoe)
     registerItem(eiShears)
-
   }
 
   def registerItem(item: Item) {
+    item.setCreativeTab(EnchantInsanity.tabEi)
     GameRegistry.registerItem(item, item.getUnlocalizedName, Reference.modId)
   }
 
   def createEiTool(consumedToolStack: ItemStack, owner: EntityPlayer): ItemStack = {
     if (consumedToolStack.getItem.isInstanceOf[ItemTool]) {
-      Communicate.withConsoleDebug("EI Tool being created from " + consumedToolStack.getDisplayName + " by " + owner.getDisplayName, "ToolCreation")
       val newTool: EiItemTool = getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool]
       newTool.consumedToolStack = consumedToolStack
       newTool.converted = true
@@ -47,7 +47,7 @@ object EiItems {
       val newToolStack: ItemStack = new ItemStack(newTool)
       newToolStack.setItemDamage(newTool.consumedToolStack.getItemDamage)
       newToolStack.getItem.asInstanceOf[EiItem].onCreate
-      newToolStack.func_151001_c(newTool.getOwnerName + "'s Enchanted " + consumedToolStack.getDisplayName)
+      newToolStack.func_151001_c(owner.getDisplayName + "'s Enchanted " + consumedToolStack.getDisplayName)
     } else {
       null
     }

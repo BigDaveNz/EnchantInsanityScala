@@ -6,13 +6,15 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.core.chat.Communicate
+import net.minecraft.util.IIcon
+import cpw.mods.fml.relauncher.{Side, SideOnly}
+import nz.co.bigdavenz.ei.EnchantInsanity
 
 /**
  * Created by David J. Dudson on 15/01/14.'
  *
  * Work Around for EI Items that do not have a specific tool material
  */
-
 trait EiItem extends Item with Enchantable {
 
 
@@ -25,15 +27,16 @@ trait EiItem extends Item with Enchantable {
   def onCreate
 
   def setDroppable(drop: Boolean) {
-    this.droppable = drop
-  }
-
-  override def registerIcons(iconRegister: IIconRegister) {
-    iconRegister.registerIcon(Reference.modId + ":" + itemType)
+    droppable = drop
   }
 
   override def onDroppedByPlayer(item: ItemStack, player: EntityPlayer): Boolean = {
-    Communicate.withPlayer(getOwner, "You dropped qnd enchanted item?? Really?? Clumsy much!!")
-    this.droppable
+    Communicate.withPlayer(getOwner, "You dropped an enchanted item?? Really?? Clumsy much!!")
+    droppable
   }
+
+  override def hasEffect(par1ItemStack: ItemStack): Boolean = true
+
+
+
 }
