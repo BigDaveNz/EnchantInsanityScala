@@ -37,13 +37,7 @@ object EiItems {
   def createEiTool(consumedToolStack: ItemStack, owner: EntityPlayer): ItemStack = {
     if (consumedToolStack.getItem.isInstanceOf[ItemTool]) {
       val newTool: EiItemTool = getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool]
-      newTool.consumedToolStack = consumedToolStack
-      newTool.converted = true
-      newTool.consumedTool = consumedToolStack.getItem.asInstanceOf[ItemTool]
-      newTool.consumedToolStack = consumedToolStack
-      newTool.setOwner(owner)
-      newTool.maxEnchantments = newTool.consumedTool.func_150913_i().getHarvestLevel
-      newTool.setMaxDamage(newTool.consumedTool.getMaxDamage)
+      newTool.onConverted(consumedToolStack:ItemStack,owner)
       val newToolStack: ItemStack = new ItemStack(newTool)
       newToolStack.setItemDamage(newTool.consumedToolStack.getItemDamage)
       newToolStack.getItem.asInstanceOf[EiItem].onCreate

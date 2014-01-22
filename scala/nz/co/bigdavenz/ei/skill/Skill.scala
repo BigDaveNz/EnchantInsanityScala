@@ -1,6 +1,6 @@
 package nz.co.bigdavenz.ei.skill
 
-import nz.co.bigdavenz.ei.core.traits.{Nameable, Enableable, Levelable}
+import nz.co.bigdavenz.ei.core.traits.{Enableable, Levelable}
 import nz.co.bigdavenz.ei.player.EiSkill
 
 /**
