@@ -98,10 +98,10 @@ trait Enchantable {
     }
   }
 
-  def getSlotFromEnchantment(itemStack: ItemStack, enchantment: Enchantment, player: EntityPlayer): Int = {
+  def getSlotFromEnchantment(itemStack: ItemStack, enchantmentName: String, player: EntityPlayer): Int = {
     for (x <- 1 to getMaxEnchantments(itemStack)) {
       itemStack.stackTagCompound.getString("Enchantment Slot " + x) match {
-        case enchantment.getName => x
+        case  `enchantmentName` => x
         case _ =>
       }
     }
@@ -109,7 +109,7 @@ trait Enchantable {
   }
 
   def replaceEnchantment(itemStack: ItemStack, enchantment: Enchantment, player: EntityPlayer) {
-    getSlotFromEnchantment(itemStack, enchantment, player) match {
+    getSlotFromEnchantment(itemStack, enchantment.getName, player) match {
       case -1 => Communicate.withPlayer(player, "Didnt find the enchantment to replace, are you sure it exists?")
       case x if x <= 10 => addEnchantmentToSlot(itemStack, x, enchantment, player, true)
     }

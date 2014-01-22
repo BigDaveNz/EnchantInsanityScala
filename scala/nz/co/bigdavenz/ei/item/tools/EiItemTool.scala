@@ -25,6 +25,7 @@ trait EiItemTool extends EiItem {
   override def onConverted(itemStack:ItemStack,owner: EntityPlayer){
     super.onConverted(itemStack,owner)
     itemStack.stackTagCompound.setBoolean("isTool", true)
+    //todo fix the converted data
     setupEnchantments(itemStack)
   }
 

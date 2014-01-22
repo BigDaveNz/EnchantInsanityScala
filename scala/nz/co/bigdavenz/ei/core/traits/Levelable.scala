@@ -8,7 +8,7 @@ package nz.co.bigdavenz.ei.core.traits
  */
 
 
-trait Levelable extends Ownable{
+trait Levelable{
 
   private var xp: Float = 0.0f
   val getLevel: Int = calculateLevel()
