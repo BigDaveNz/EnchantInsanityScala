@@ -7,6 +7,8 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
 import net.minecraft.world.World
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.server.MinecraftServer
+import net.minecraft.client.renderer.texture.IIconRegister
+import nz.co.bigdavenz.ei.lib.Reference
 
 /**
  * Created by David J. Dudson on 15/01/14.'
@@ -15,10 +17,14 @@ import net.minecraft.server.MinecraftServer
  */
 trait EiItem extends Item with Enchantable {
 
-  def onConverted(itemStack: ItemStack, owner: EntityPlayer) {
-    onCreated(itemStack, owner.worldObj, owner)
-    itemStack.stackTagCompound.setBoolean("Converted", true)
-    itemStack.stackTagCompound.setString("Owner", owner.getDisplayName)
+  var effectiveHarvestNBT:NBTTagCompound = null
+
+  def onConverted(convertedStack: ItemStack, newStack:ItemStack, owner: EntityPlayer) {
+    onCreated(newStack, owner.worldObj, owner)
+    newStack.stackTagCompound.setBoolean("Converted", true)
+    newStack.stackTagCompound.setString("Owner", owner.getDisplayName)
+    newStack.stackTagCompound.setString("Item Type", newStack.getDisplayName)
+    Communicate.withPlayer(owner, "Congratulations! You have created an Enchanted " + convertedStack.getDisplayName + "! Just make sure you don't lose it.")
   }
 
   def getOwnerName(itemStack: ItemStack): String = itemStack.stackTagCompound.getString("Owner")
@@ -43,8 +49,15 @@ trait EiItem extends Item with Enchantable {
     itemStack.stackTagCompound.getBoolean("Droppable")
   }
 
+  def setupHarvestNBT{
+    effectiveHarvestNBT match{
+      case null => effectiveHarvestNBT = new NBTTagCompound
+      case _=>
+        //todo finish harvest setup
+    }
+  }
   override def onCreated(itemStack: ItemStack, world: World, player: EntityPlayer) {
-    itemStack match {
+    itemStack.stackTagCompound match {
       case null => itemStack.setTagCompound(new NBTTagCompound)
       case _ =>
     }
@@ -52,10 +65,11 @@ trait EiItem extends Item with Enchantable {
     itemStack.stackTagCompound.setBoolean("Converted", false)
     itemStack.stackTagCompound.setBoolean("Droppable", true)
     itemStack.stackTagCompound.setInteger("Max Enchantments", 0)
-
     Communicate.withConsoleDebug("onCreated method Called", "Item Creation")
   }
 
+
+  override def shouldRotateAroundWhenRendering(): Boolean = false
 
   override def hasEffect(par1ItemStack: ItemStack): Boolean = true
 

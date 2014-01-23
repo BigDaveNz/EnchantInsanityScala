@@ -21,4 +21,6 @@ class Efficiency extends Enchantment {
     true
     //todo, set this up
   }
+
+  val name: String = "Efficency"
 }

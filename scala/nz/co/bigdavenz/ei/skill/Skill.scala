@@ -10,10 +10,9 @@ import nz.co.bigdavenz.ei.player.EiSkill
  */
 
 
-class Skill(name: String) extends Levelable with Enableable with Nameable {
+class Skill(name: String) extends Levelable with Enableable{
 
   def Skill(nameKey: String, multiplier: Double = 10, power: Double = 2) {
-    setNameFromLang(nameKey)
     setExpPower(power)
     setExpMultiplier(multiplier)
     EiSkill.listOfSkills.append(this)

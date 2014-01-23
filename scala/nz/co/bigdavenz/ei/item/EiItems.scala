@@ -7,6 +7,7 @@ import nz.co.bigdavenz.ei.lib.Reference
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.EnchantInsanity
+import nz.co.bigdavenz.ei.item.weapons.{EiItemWeapon, EnchantedSword}
 
 /**
  * Created by David J. Dudson on 11/01/14.
@@ -20,6 +21,7 @@ object EiItems {
   var eiShovel = new EnchantedShovel().setUnlocalizedName("eishovel")
   var eiHoe = new EnchantedHoe().setUnlocalizedName("eihoe")
   var eiShears = new EnchantedShears().setUnlocalizedName("eishears")
+  var eiSword = new EnchantedSword().setUnlocalizedName("eisword")
 
   def init() {
     registerItem(eiPickaxe)
@@ -27,6 +29,7 @@ object EiItems {
     registerItem(eiShovel)
     registerItem(eiHoe)
     registerItem(eiShears)
+    registerItem(eiSword)
   }
 
   def registerItem(item: Item) {
@@ -35,15 +38,16 @@ object EiItems {
   }
 
   def createEiTool(consumedToolStack: ItemStack, owner: EntityPlayer): ItemStack = {
-    if (consumedToolStack.getItem.isInstanceOf[ItemTool]) {
-      val newTool: EiItemTool = getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool]
-      newTool.onConverted(consumedToolStack:ItemStack,owner)
-      val newToolStack: ItemStack = new ItemStack(newTool)
-      newToolStack.setItemDamage(newTool.consumedToolStack.getItemDamage)
-      newToolStack.getItem.asInstanceOf[EiItem].onCreate
-      newToolStack.func_151001_c(owner.getDisplayName + "'s Enchanted " + consumedToolStack.getDisplayName)
-    } else {
-      null
+    consumedToolStack.getItem match {
+      case _: ItemTool =>
+        val newToolStack: ItemStack = new ItemStack(getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool])
+        newToolStack.getItem.asInstanceOf[EiItemTool].onConverted(consumedToolStack, newToolStack, owner)
+        newToolStack
+      case _: ItemSword =>
+        val newToolStack: ItemStack = new ItemStack(EiItems.eiSword.asInstanceOf[EiItemWeapon])
+        newToolStack.getItem.asInstanceOf[EiItemTool].onConverted(consumedToolStack, newToolStack, owner)
+        newToolStack
+
     }
   }
 

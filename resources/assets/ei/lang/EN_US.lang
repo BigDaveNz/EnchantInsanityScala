@@ -4,7 +4,8 @@ item.eipick.name=Enchanted Pickaxe
 item.eiaxe.name=Enchanted Axe
 item.eihoe.name=Enchanted Hoe
 item.eishovel.name=Enchanted Shovel
-
+item.eishears.name=Enchanted Shears
+item.eisword.name=Enchanted Sword
 
 #Block Localizations
 
