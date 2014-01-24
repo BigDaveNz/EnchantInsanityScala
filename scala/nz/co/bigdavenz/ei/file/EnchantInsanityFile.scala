@@ -5,6 +5,6 @@ package nz.co.bigdavenz.ei.file
  *
  * Responsible for the serialization of skills
  */
-object SkillFile {
+object EnchantInsanityFile {
 
 }
