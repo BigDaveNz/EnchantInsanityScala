@@ -32,8 +32,16 @@ object Communicate {
     player.func_146105_b(createChatComponent(message))
   }
 
+  def withPlayerWarning(player: EntityPlayer, message: String) {
+    player.func_146105_b(createChatComponent("[WARNING]" + message))
+  }
+
   def withAllPlayers(message: String) {
     MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent(message))
+  }
+
+  def withAllPlayersWarning(message: String) {
+    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[WARNING] " + message))
   }
 
   @SideOnly(Side.CLIENT)
@@ -51,6 +59,14 @@ object Communicate {
     if (Reference.debugMode) {
       FMLLog.info("[EI DEBUG] " + "[" + debugType + "] " + message)
     }
+  }
+  
+  def withConsoleWarning(warningType:String, message:String ){
+    FMLLog.warning("[EI] " + "[" + warningType.toUpperCase + "] " + message)
+  }
+
+  def withConsoleSevere(severeType:String, message:String ){
+    FMLLog.severe("[EI] " + "[" + severeType.toUpperCase + "] " + message)
   }
 
   def withConsole(message: String) {

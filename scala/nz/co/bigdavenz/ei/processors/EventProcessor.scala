@@ -32,6 +32,7 @@ object EventProcessor {
             event.setCanceled(true)
         }
       case _=>
+        Communicate.withConsoleWarning("EI ITEM","Item attempted to be created when ")
     }
   }
 }
