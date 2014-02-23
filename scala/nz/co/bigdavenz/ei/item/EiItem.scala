@@ -7,8 +7,6 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
 import net.minecraft.world.World
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.server.MinecraftServer
-import net.minecraft.client.renderer.texture.IIconRegister
-import nz.co.bigdavenz.ei.lib.Reference
 
 /**
  * Created by David J. Dudson on 15/01/14.'
@@ -17,9 +15,9 @@ import nz.co.bigdavenz.ei.lib.Reference
  */
 trait EiItem extends Item with Enchantable {
 
-  var effectiveHarvestNBT:NBTTagCompound = null
+  var effectiveHarvestNBT: NBTTagCompound = null
 
-  def onConverted(convertedStack: ItemStack, newStack:ItemStack, owner: EntityPlayer) {
+  def onConverted(convertedStack: ItemStack, newStack: ItemStack, owner: EntityPlayer) {
     onCreated(newStack, owner.worldObj, owner)
     newStack.stackTagCompound.setBoolean("Converted", true)
     newStack.stackTagCompound.setString("Owner", owner.getDisplayName)
@@ -29,8 +27,8 @@ trait EiItem extends Item with Enchantable {
 
   def getOwnerName(itemStack: ItemStack): String = itemStack.stackTagCompound.getString("Owner")
 
-  def getOwner(itemStack: ItemStack):EntityPlayer = {
-      MinecraftServer.getServer.getConfigurationManager.getPlayerForUsername(itemStack.stackTagCompound.getString("Owner"))
+  def getOwner(itemStack: ItemStack): EntityPlayer = {
+    MinecraftServer.getServer.getConfigurationManager.getPlayerForUsername(itemStack.stackTagCompound.getString("Owner"))
   }
 
   def setDroppable(itemStack: ItemStack, droppable: Boolean) {
@@ -49,13 +47,14 @@ trait EiItem extends Item with Enchantable {
     itemStack.stackTagCompound.getBoolean("Droppable")
   }
 
-  def setupHarvestNBT{
-    effectiveHarvestNBT match{
+  def setupHarvestNBT {
+    effectiveHarvestNBT match {
       case null => effectiveHarvestNBT = new NBTTagCompound
-      case _=>
-        //todo finish harvest setup
+      case _ =>
+      //todo finish harvest setup
     }
   }
+
   override def onCreated(itemStack: ItemStack, world: World, player: EntityPlayer) {
     itemStack.stackTagCompound match {
       case null => itemStack.setTagCompound(new NBTTagCompound)

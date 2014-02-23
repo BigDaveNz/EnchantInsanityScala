@@ -1,7 +1,7 @@
 package nz.co.bigdavenz.ei.core.chat
 
 import net.minecraft.util.{ChatComponentText, IChatComponent}
-import nz.co.bigdavenz.ei.lib.Reference
+import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayer
 import cpw.mods.fml.common.FMLLog
@@ -25,11 +25,17 @@ object Communicate {
   }
 
   private def createChatComponent(message: String): IChatComponent = {
-    createEIChatComponent(Reference.modId.toUpperCase).func_150257_a(new ChatComponentText(message))
+    createEIChatComponent(ModReference.modId.toUpperCase).func_150257_a(new ChatComponentText(message))
   }
 
   def withPlayer(player: EntityPlayer, message: String) {
-    player.func_146105_b(createChatComponent(message))
+    try {
+      player.func_146105_b(createChatComponent(message))
+    }
+    catch {
+      case _: NullPointerException =>
+        Communicate.withConsoleWarning("Chat", "Attempted to communicate with a player that is not online! Player: " + player.getDisplayName)
+    }
   }
 
   def withPlayerWarning(player: EntityPlayer, message: String) {
@@ -37,11 +43,11 @@ object Communicate {
   }
 
   def withAllPlayers(message: String) {
-    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent(message))
+    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[BROADCAST]" + message))
   }
 
   def withAllPlayersWarning(message: String) {
-    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[WARNING] " + message))
+    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[BROADCAST] [WARNING] " + message))
   }
 
   @SideOnly(Side.CLIENT)
@@ -50,13 +56,13 @@ object Communicate {
   }
 
   def withPlayerDebug(player: EntityPlayer, message: String, debugType: String = "General") {
-    if (Reference.debugMode) {
+    if (ModReference.debugMode) {
       withPlayer(player, "[Debug:" + debugType + "] " + message)
     }
   }
 
   def withConsoleDebug(message: String, debugType: String = "General") {
-    if (Reference.debugMode) {
+    if (ModReference.debugMode) {
       FMLLog.info("[EI DEBUG] " + "[" + debugType + "] " + message)
     }
   }

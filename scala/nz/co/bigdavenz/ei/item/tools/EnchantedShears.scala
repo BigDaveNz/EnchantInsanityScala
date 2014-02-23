@@ -1,7 +1,7 @@
 package nz.co.bigdavenz.ei.item.tools
 
 import net.minecraft.client.renderer.texture.IIconRegister
-import nz.co.bigdavenz.ei.lib.Reference
+import nz.co.bigdavenz.ei.lib.ModReference
 
 
 /**
@@ -9,6 +9,6 @@ import nz.co.bigdavenz.ei.lib.Reference
  *
  * Enchanted Shears Class
  */
-class EnchantedShears extends EiItemTool{
-  override def registerIcons(iconRegister: IIconRegister): Unit = itemIcon = iconRegister.registerIcon(Reference.modId + ":" + getUnlocalizedName)
+class EnchantedShears extends EiItemTool {
+  override def registerIcons(iconRegister: IIconRegister): Unit = itemIcon = iconRegister.registerIcon(ModReference.modId + ":" + getUnlocalizedName)
 }

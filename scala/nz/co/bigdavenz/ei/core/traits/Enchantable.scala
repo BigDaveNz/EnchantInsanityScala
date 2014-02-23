@@ -11,7 +11,6 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.NBTTagCompound
-import scala.util.control.Breaks._
 
 trait Enchantable {
 
@@ -101,7 +100,7 @@ trait Enchantable {
   def getSlotFromEnchantment(itemStack: ItemStack, enchantmentName: String, player: EntityPlayer): Int = {
     for (x <- 1 to getMaxEnchantments(itemStack)) {
       itemStack.stackTagCompound.getString("Enchantment Slot " + x) match {
-        case  `enchantmentName` => x
+        case `enchantmentName` => x
         case _ =>
       }
     }

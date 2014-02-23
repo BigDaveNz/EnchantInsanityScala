@@ -7,10 +7,12 @@ import net.minecraft.nbt.NBTTagCompound
  *
  * Handles all save data
  */
+
 abstract class EiData {
 
-  var mapName:String
-  def writeToNBT(nbtCompuound:NBTTagCompound)
+  var mapName: String
 
-  def loadFromNBT(nbtCompound:NBTTagCompound)
+  def writeToNBT(nbtCompound: NBTTagCompound)
+
+  def loadFromNBT(nbtCompound: NBTTagCompound)
 }

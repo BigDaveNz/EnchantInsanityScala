@@ -3,9 +3,8 @@ package nz.co.bigdavenz.ei.item
 import net.minecraft.item._
 import cpw.mods.fml.common.registry.GameRegistry
 import nz.co.bigdavenz.ei.item.tools._
-import nz.co.bigdavenz.ei.lib.Reference
+import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.entity.player.EntityPlayer
-import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.EnchantInsanity
 import nz.co.bigdavenz.ei.item.weapons.{EiItemWeapon, EnchantedSword}
 
@@ -34,7 +33,16 @@ object EiItems {
 
   def registerItem(item: Item) {
     item.setCreativeTab(EnchantInsanity.tabEi)
-    GameRegistry.registerItem(item, item.getUnlocalizedName, Reference.modId)
+    GameRegistry.registerItem(item, item.getUnlocalizedName, ModReference.modId)
+  }
+
+  def createEiWeapon(consumedWeaponStack: ItemStack, owner: EntityPlayer): ItemStack = {
+    consumedWeaponStack.getItem match {
+      case _: ItemSword =>
+        val newWeaponStack: ItemStack = new ItemStack(EiItems.eiSword.asInstanceOf[EiItemWeapon])
+        newWeaponStack.getItem.asInstanceOf[EiItemWeapon].onConverted(consumedWeaponStack, newWeaponStack, owner)
+        newWeaponStack
+    }
   }
 
   def createEiTool(consumedToolStack: ItemStack, owner: EntityPlayer): ItemStack = {
@@ -43,11 +51,10 @@ object EiItems {
         val newToolStack: ItemStack = new ItemStack(getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool])
         newToolStack.getItem.asInstanceOf[EiItemTool].onConverted(consumedToolStack, newToolStack, owner)
         newToolStack
-      case _: ItemSword =>
-        val newToolStack: ItemStack = new ItemStack(EiItems.eiSword.asInstanceOf[EiItemWeapon])
-        newToolStack.getItem.asInstanceOf[EiItemTool].onConverted(consumedToolStack, newToolStack, owner)
-        newToolStack
-
+      case _: ItemShears =>
+        val newShearStack: ItemStack = new ItemStack(getTool(consumedToolStack.getItem).asInstanceOf[EiItemTool])
+        newShearStack.getItem.asInstanceOf[EiItemTool].onConverted(consumedToolStack, newShearStack, owner)
+        newShearStack
     }
   }
 

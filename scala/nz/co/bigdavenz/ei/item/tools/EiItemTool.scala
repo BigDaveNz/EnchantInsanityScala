@@ -18,8 +18,8 @@ trait EiItemTool extends EiItem {
 
   override def isItemTool(itemStack: ItemStack): Boolean = true
 
-  override def onConverted(convertedStack:ItemStack,newStack:ItemStack, owner: EntityPlayer){
-    super.onConverted(convertedStack,newStack,owner)
+  override def onConverted(convertedStack: ItemStack, newStack: ItemStack, owner: EntityPlayer) {
+    super.onConverted(convertedStack, newStack, owner)
     newStack.stackTagCompound.setInteger("Max Uses", convertedStack.getMaxDamage)
     newStack.stackTagCompound.setInteger("Current Uses", convertedStack.getItemDamage)
     newStack.func_151001_c(owner.getDisplayName + "'s Enchanted " + convertedStack.getDisplayName)
@@ -38,11 +38,5 @@ trait EiItemTool extends EiItem {
   //
   //  }
   //  TODO do this the EI way, getting player data aswell as tool data
-
-  //  itemStack.stackTagCompound.setString("ConsumedToolName", consumedTool.getItemStackDisplayName())
-  //  override def onCreated(itemStack: ItemStack, world: World, player: EntityPlayer, consumedToolStack:ItemStack){
-  //    super.onCreated(itemStack,world,player)
-  //  }
-  // todo decide whether or not we need this function
 
 }

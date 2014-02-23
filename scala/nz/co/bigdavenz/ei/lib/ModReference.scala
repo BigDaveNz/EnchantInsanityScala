@@ -7,14 +7,11 @@ package nz.co.bigdavenz.ei.lib
  * Reference File for unlocalised strings
  * and various other things
  */
-object Reference {
+object ModReference {
 
   val modId: String = "ei"
   val modName: String = "Enchant Insanity"
   val modVersion: String = "0.0.1"
 
   var debugMode = true
-
-  val clientProxy = "nz.co.bigdavenz.core.proxy.ClientProxy"
-  val commonProxy = "nz.co.bigdavenz.core.proxy.CommonProxy"
 }
