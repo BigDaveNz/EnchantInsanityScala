@@ -1,7 +1,7 @@
 package nz.co.bigdavenz.ei.processors
 
 import cpw.mods.fml.relauncher.{SideOnly, Side}
-import nz.co.bigdavenz.ei.lib.{GeneralReference, ModReference}
+import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.command.{CommandBase, ICommandSender, WrongUsageException}
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.processors.commands.{Help, Experience, ConvertObject}
@@ -46,7 +46,7 @@ object CommandProcessor extends CommandBase {
           case "xp" => // Wrong usage for xp command //
             throw new WrongUsageException("/ei xp [value] or /ei xp [player] [value]", new Array[Nothing](0))
           case "brag" => // If the //
-            PlayerData.getField(commandSender.getCommandSenderName, "Misc", "Status", GeneralReference.stringClassToString).toString match {
+            PlayerData.getField(commandSender.getCommandSenderName, "Misc", "Status", NBTTypeEnum.STRING).toString match {
               case "Important" =>
                 Communicate.withAllPlayers("To find out more about why " + commandSender.getCommandSenderName + " is a VIP go to: " + " #ShamelessPromotions")
               case _ =>

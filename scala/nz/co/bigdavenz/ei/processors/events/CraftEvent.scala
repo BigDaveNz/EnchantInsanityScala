@@ -12,12 +12,16 @@ import nz.co.bigdavenz.ei.file.PlayerData
 object CraftEvent {
 
   def onCraft(event: PlayerEvent.ItemCraftedEvent) {
-    PlayerData.setField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName, PlayerData.getField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName, Int.getClass.toString).asInstanceOf[Int] + event.crafting.stackSize)
+    val oldField = PlayerData.getField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName, NBTTypeEnum.INT)
+    Communicate.withConsoleDebug(oldField.toString)
+
+    //ayerData.setField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName,  oldField + event.crafting.stackSize)
     Communicate.withConsoleDebug("Item Crafted and XP Given")
   }
 
   def onSmelt(event: PlayerEvent.ItemSmeltedEvent) {
-    PlayerData.setField(event.player.getDisplayName, "Craft", event.smelting.getDisplayName, PlayerData.getField(event.player.getDisplayName, "Craft", event.smelting.getDisplayName, Int.getClass.toString).asInstanceOf[Int] + event.smelting.stackSize)
+    val oldField = PlayerData.getField(event.player.getDisplayName, "Craft", event.smelting.getDisplayName, NBTTypeEnum.INT)
+    //    PlayerData.setField(event.player.getDisplayName, "Craft", event.smelting.getDisplayName, oldField + event.smelting.stackSize)
     Communicate.withConsoleDebug("Item Crafted and XP Given")
   }
 }

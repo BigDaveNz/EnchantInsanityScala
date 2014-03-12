@@ -22,7 +22,7 @@ trait EiItemTool extends EiItem {
     super.onConverted(convertedStack, newStack, owner)
     newStack.stackTagCompound.setInteger("Max Uses", convertedStack.getMaxDamage)
     newStack.stackTagCompound.setInteger("Current Uses", convertedStack.getItemDamage)
-    newStack.func_151001_c(owner.getDisplayName + "'s Enchanted " + convertedStack.getDisplayName)
+    newStack.setStackDisplayName(owner.getDisplayName + "'s Enchanted " + convertedStack.getDisplayName)
     //todo fix the converted data
     setupEnchantments(newStack)
   }

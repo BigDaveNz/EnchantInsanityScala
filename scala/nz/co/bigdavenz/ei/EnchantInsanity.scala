@@ -1,6 +1,6 @@
 package nz.co.bigdavenz.ei
 
-import cpw.mods.fml.common.Mod
+import cpw.mods.fml.common.{FMLCommonHandler, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
 import cpw.mods.fml.common.event.FMLServerStartingEvent
@@ -10,7 +10,6 @@ import nz.co.bigdavenz.ei.item.EiItems
 import net.minecraft.creativetab.CreativeTabs
 import nz.co.bigdavenz.ei.lib.ModReference
 import nz.co.bigdavenz.ei.creativeTabs.CreativeTabEi
-import net.minecraftforge.common.MinecraftForge
 
 /**
  * Enchant Insanity
@@ -31,9 +30,8 @@ object EnchantInsanity {
 
   @EventHandler def preInit(event: FMLPreInitializationEvent) {
     Communicate.withConsole("Enchant Insanity Loading...")
-    MinecraftForge.EVENT_BUS.register(EventProcessor)
+    FMLCommonHandler.instance().bus().register(new EventProcessor)
     EiItems.init()
 
   }
-
 }

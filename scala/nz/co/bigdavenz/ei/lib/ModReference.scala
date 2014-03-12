@@ -4,7 +4,7 @@ package nz.co.bigdavenz.ei.lib
 /**
  * Created by David J. Dudson on 5/01/14.
  *
- * Reference File for unlocalised strings
+ * Reference MainData for unlocalised strings
  * and various other things
  */
 object ModReference {

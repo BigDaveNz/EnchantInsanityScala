@@ -7,7 +7,8 @@ import nz.co.bigdavenz.ei.item.EiItem
 import net.minecraft.item.ItemStack
 import net.minecraftforge.event.world.WorldEvent
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import nz.co.bigdavenz.ei.file.EnchantInsanityFile
+
+//import nz.co.bigdavenz.ei.file.EnchantInsanityFile
 
 
 /**
@@ -15,7 +16,7 @@ import nz.co.bigdavenz.ei.file.EnchantInsanityFile
  *
  * Processes all tapped into Events
  */
-object EventProcessor {
+class EventProcessor {
 
   @SubscribeEvent
   def onPlayerLogin(event: PlayerEvent.PlayerLoggedInEvent) {
@@ -24,14 +25,12 @@ object EventProcessor {
 
   @SubscribeEvent
   def onPlayerPickup(event: PlayerEvent.ItemPickupEvent) {
-    Communicate.withConsole("Player Pickup")
-    Communicate.withPlayer(event.player, "Player Pickup")
     val itemStack: ItemStack = event.pickedUp.getEntityItem
     itemStack.getItem match {
       case _: EiItem if itemStack.stackTagCompound.hasKey("Owner") =>
         val owner: String = itemStack.stackTagCompound.getString("Owner")
         event.player.getDisplayName match {
-          case `owner` =>
+          case `owner` => Communicate.withPlayer(event.player, "Well at least you retrieved it.")
           case _ => Communicate.withPlayer(event.player, "This " + itemStack.getDisplayName + " Does not belong to you!! You can't pick it up!")
             event.setCanceled(true)
         }
@@ -54,7 +53,7 @@ object EventProcessor {
 
   @SubscribeEvent
   def onWorldSave(event: WorldEvent.Save) {
-    EnchantInsanityFile.saveData(EnchantInsanityFile.eiData)
+    //EnchantInsanityFile.saveData(EnchantInsanityFile.eiData)
     Communicate.withConsoleDebug("Enchant Insanity Data Saved", "Save")
   }
 

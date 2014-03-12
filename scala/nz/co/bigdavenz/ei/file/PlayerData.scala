@@ -2,8 +2,9 @@ package nz.co.bigdavenz.ei.file
 
 import net.minecraft.nbt.NBTTagCompound
 import nz.co.bigdavenz.ei.core.chat.Communicate
-import nz.co.bigdavenz.ei.lib.{GeneralReference, ModReference}
-
+import nz.co.bigdavenz.ei.file.data.DataPackage
+import nz.co.bigdavenz.ei.lib.ModReference
+import scala.collection.mutable.HashMap
 
 /**
  * Created by David J. Dudson on 11/01/14.
@@ -13,21 +14,11 @@ import nz.co.bigdavenz.ei.lib.{GeneralReference, ModReference}
 
 object PlayerData {
 
-  var players: NBTTagCompound = new NBTTagCompound
+  var playerData: DataPackage = new DataPackage("Players", HashMap.empty)
 
-  val dataTypes: List[String] = List(GeneralReference.intClassToString, GeneralReference.booleanClassToString, GeneralReference.doubleClassToString, GeneralReference.floatClassToString, GeneralReference.stringClassToString)
+  //val compoundNameList: List[String] = List("Destroy", "Place", "Use", "Craft", "Player", "Misc", "Unlocks", "Ownership", "Tutorials")
 
-  val compoundNameList: List[String] = List("Destroy", "Place", "Use", "Craft", "Player", "Misc", "Unlocks", "Ownership", "Tutorials")
-
-  def getSubData(playerName: String, compoundName: String): NBTTagCompound = {
-    checkCompoundForTag(players, playerName, "Tried to access sub compound for a player who doesnt exist!!!") match {
-      case true =>
-        val playerCompound: NBTTagCompound = players.getCompoundTag(playerName)
-        playerCompound.getCompoundTag(compoundName)
-      case false =>
-        null
-    }
-  }
+  def getPlayerData(playerName: String) = playerData.getContents(playerName)
 
   def checkCompoundForTag(compound: NBTTagCompound, tagName: String, failMessage: String): Boolean = {
     try {
@@ -92,50 +83,24 @@ object PlayerData {
   def getField(playerName: String, compoundName: String, fieldName: String): Any = {
 
     var returnValue: Any = null
-    dataTypes.foreach {
-      dataType: String =>
-        try {
-          returnValue = getField(playerName, compoundName, fieldName, dataType)
-        } catch {
-          case _: ClassCastException =>
-        } finally {
-          returnValue match {
-            case null =>
-              Communicate.withConsoleWarning("NBT", "No value of any data type found in: " + playerName + " - " + compoundName + " - " + fieldName)
-            case _ =>
-          }
-        }
-    }
-    returnValue
-  }
-
-  def getField(playerName: String, compoundName: String, fieldName: String, fieldType: String) {
-    val subData: NBTTagCompound = getSubData(playerName, compoundName)
-    checkCompoundForTag(subData, fieldName, "Attempted To get an Int field that doesn't exist:" + playerName + " - " + compoundName + " - " + fieldName) match {
-
-      case true =>
-
-        fieldType match {
-          case GeneralReference.intClassToString =>
-            subData.getInteger(fieldName)
-          case GeneralReference.stringClassToString =>
-            subData.getString(fieldName)
-          case GeneralReference.booleanClassToString =>
-            subData.getBoolean(fieldName)
-          case GeneralReference.doubleClassToString =>
-            subData.getDouble(fieldName)
-          case GeneralReference.floatClassToString =>
-            subData.getFloat(fieldName)
+    for (dataType <- NBTTypeEnum.values)
+      try {
+        returnValue = getField(playerName, compoundName, fieldName, dataType)
+      } catch {
+        case _: ClassCastException =>
+      } finally {
+        returnValue match {
+          case null =>
+            Communicate.withConsoleWarning("NBT", "No value of any data type found in: " + playerName + " - " + compoundName + " - " + fieldName)
           case _ =>
-            Communicate.withConsoleWarning("NBT", "Attempted to get field with invalid data type: " + fieldType)
         }
-      case _ =>
-    }
+      }
+    returnValue
   }
 
   def setField(playerName: String, compoundName: String, fieldName: String, value: Any) {
     val compound: NBTTagCompound = getSubData(playerName, compoundName)
-    Communicate.withConsoleDebug("Modifying field: " + playerName + " - " + compoundName + " - " + fieldName + ". from: " + getField(playerName, compoundName, fieldName, value.getClass.toString) + ", To: " + value)
+    Communicate.withConsoleDebug("Modifying field: " + playerName + " - " + compoundName + " - " + fieldName + ". from: " + getField(playerName, compoundName, fieldName) + ", To: " + value)
     value match {
       case _: Int =>
         compound.setInteger(fieldName, value.asInstanceOf[Int])

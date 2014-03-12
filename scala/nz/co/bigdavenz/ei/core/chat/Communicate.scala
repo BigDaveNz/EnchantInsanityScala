@@ -25,12 +25,12 @@ object Communicate {
   }
 
   private def createChatComponent(message: String): IChatComponent = {
-    createEIChatComponent(ModReference.modId.toUpperCase).func_150257_a(new ChatComponentText(message))
+    createEIChatComponent(ModReference.modId.toUpperCase).appendSibling(new ChatComponentText(message))
   }
 
   def withPlayer(player: EntityPlayer, message: String) {
     try {
-      player.func_146105_b(createChatComponent(message))
+      player.addChatComponentMessage(createChatComponent(message))
     }
     catch {
       case _: NullPointerException =>
@@ -39,15 +39,15 @@ object Communicate {
   }
 
   def withPlayerWarning(player: EntityPlayer, message: String) {
-    player.func_146105_b(createChatComponent("[WARNING]" + message))
+    player.addChatComponentMessage(createChatComponent("[WARNING]" + message))
   }
 
   def withAllPlayers(message: String) {
-    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[BROADCAST]" + message))
+    MinecraftServer.getServer.getConfigurationManager.sendChatMsg(createChatComponent("[BROADCAST]" + message))
   }
 
   def withAllPlayersWarning(message: String) {
-    MinecraftServer.getServer.getConfigurationManager.func_148539_a(createChatComponent("[BROADCAST] [WARNING] " + message))
+    MinecraftServer.getServer.getConfigurationManager.sendChatMsg(createChatComponent("[BROADCAST] [WARNING] " + message))
   }
 
   @SideOnly(Side.CLIENT)
@@ -66,12 +66,12 @@ object Communicate {
       FMLLog.info("[EI DEBUG] " + "[" + debugType + "] " + message)
     }
   }
-  
-  def withConsoleWarning(warningType:String, message:String ){
+
+  def withConsoleWarning(warningType: String, message: String) {
     FMLLog.warning("[EI] " + "[" + warningType.toUpperCase + "] " + message)
   }
 
-  def withConsoleSevere(severeType:String, message:String ){
+  def withConsoleSevere(severeType: String, message: String) {
     FMLLog.severe("[EI] " + "[" + severeType.toUpperCase + "] " + message)
   }
 

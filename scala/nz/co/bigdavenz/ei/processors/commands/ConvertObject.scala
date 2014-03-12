@@ -42,19 +42,20 @@ object ConvertObject {
     }
   }
 
+  def convertHandledItem(player: EntityPlayer, itemStack: ItemStack, currentSlot: Int) {
+    if (itemStack != null) {
+      player.inventory.decrStackSize(currentSlot, 1)
+      player.inventory.setInventorySlotContents(currentSlot, itemStack)
+    }
+  }
+
   def convertWeapon(player: EntityPlayer, converted: ItemStack, currentSlot: Int) {
     val weaponStack: ItemStack = EiItems.createEiWeapon(converted, player)
-    if (weaponStack != null) {
-      player.inventory.decrStackSize(currentSlot, 1)
-      player.inventory.setInventorySlotContents(currentSlot, weaponStack)
-    }
+    convertHandledItem(player, weaponStack, currentSlot)
   }
 
   def convertTool(player: EntityPlayerMP, converted: ItemStack, currentSlot: Int) {
     val toolStack: ItemStack = EiItems.createEiTool(converted, player)
-    if (toolStack != null) {
-      player.inventory.decrStackSize(currentSlot, 1)
-      player.inventory.setInventorySlotContents(currentSlot, toolStack)
-    }
+    convertHandledItem(player, toolStack, currentSlot)
   }
 }

@@ -1,27 +1,29 @@
 package nz.co.bigdavenz.ei.file
 
-import net.minecraft.nbt.NBTTagCompound
-import nz.co.bigdavenz.ei.lib.ModReference
+import java.io._
+import nz.co.bigdavenz.ei.file.data.DataPackage
 
 /**
  * Created by David J. Dudson on 10/02/14.
  *
  * All data is in this file
  */
-class MainData extends EiData {
 
-  var mapName: String = "EI Data"
+object MainData {
 
-  def writeToNBT(nbtCompound: NBTTagCompound): Unit = {
-
-    nbtCompound.setString("Save Version", ModReference.modVersion)
-    nbtCompound.setTag("Player Data", PlayerData.getPlayerData)
-    nbtCompound.setTag("World Data", WorldData.getWorldData)
+  def save {
+    val in: ObjectInputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream("MainData.ei")))
+    PlayerData.playerData = in.readObject match {
+      case dat: DataPackage => dat
+      case _ => throw new Exception("Data read was not of type DataPackage")
+    }
+    in.close()
   }
 
-  def loadFromNBT(nbtCompound: NBTTagCompound): Unit = {
 
-    WorldData.setWorldData(nbtCompound.getCompoundTag("World Data"))
-    PlayerData.setPlayerData(nbtCompound.getCompoundTag("Player Data"))
+  def load {
+    val out: ObjectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("MainData.ei")))
+    out.writeObject(PlayerData.playerData)
+    out.close()
   }
 }

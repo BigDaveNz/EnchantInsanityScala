@@ -1,7 +1,6 @@
 package nz.co.bigdavenz.ei.item.weapons
 
-import net.minecraft.item.{ItemStack, Item}
-import nz.co.bigdavenz.ei.core.traits.Enchantable
+import net.minecraft.item.ItemStack
 import nz.co.bigdavenz.ei.item.EiItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.World
@@ -12,15 +11,16 @@ import net.minecraft.world.World
  * trait for Enchanted Weapons
  */
 
-trait EiItemWeapon extends EiItem{
-  override def onConverted(convertedStack:ItemStack,newStack:ItemStack, owner: EntityPlayer){
-    super.onConverted(convertedStack,newStack,owner)
+trait EiItemWeapon extends EiItem {
+  override def onConverted(convertedStack: ItemStack, newStack: ItemStack, owner: EntityPlayer) {
+    super.onConverted(convertedStack, newStack, owner)
     newStack.stackTagCompound.setInteger("Max Uses", convertedStack.getMaxDamage)
     newStack.stackTagCompound.setInteger("Current Uses", convertedStack.getItemDamage)
-    newStack.func_151001_c(owner.getDisplayName + "'s Enchanted " + convertedStack.getDisplayName)
+    newStack.setStackDisplayName(owner.getDisplayName + "'s Enchanted " + convertedStack.getDisplayName)
     //todo fix the converted data
     setupEnchantments(newStack)
   }
+
   override def onCreated(itemStack: ItemStack, world: World, player: EntityPlayer): Unit = {
     super.onCreated(itemStack, world, player)
   }
