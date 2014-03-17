@@ -3,13 +3,25 @@ package nz.co.bigdavenz.ei.file.data
 import scala.collection.mutable.HashMap
 
 import nz.co.bigdavenz.ei.core.chat.Communicate
+import scala.xml.Node
 
 /**
  * Created by David J. Dudson on 13/03/14.
  *
  * Allows Data to be packages and subpackaged
  */
-class DataPackage(key: String, value: HashMap[String, Data]) extends Data(value, true) {
+class DataPackage(key: String, value: HashMap[String, Data]) extends ComplexNestedData(value, "DataPackage", true) {
+
+  override def toXml: Node =
+    <DataPackage key={this.key}>
+      <Test>This is a test</Test>
+    </DataPackage>
+
+  def onCreate() {}
+
+  def this(key: String) {
+    this(key, new HashMap[String, Data].empty)
+  }
 
   def appendContents(key: String, data: Data) {
     this.value.put(key, data)
@@ -27,15 +39,6 @@ class DataPackage(key: String, value: HashMap[String, Data]) extends Data(value,
     this.value.get(key).get
   }
 
-  def getContentsSafetly(key: String) {
-    if (this.containsKey(key)) {
-      getContents(key)
-    } else {
-      Communicate.withConsole("Attempted to get contents which doesnt exist!")
-      None
-    }
-  }
-
   def replaceContents(key: String, value: Data) {
     if (this.value.contains(key)) {
       if (this.getContents(key).isLocked) {
@@ -47,4 +50,8 @@ class DataPackage(key: String, value: HashMap[String, Data]) extends Data(value,
       this.appendContents(key, value)
     }
   }
+
+
+  //  override def xmlInner {
+  //  this.value.foreach{case (key,value) => <Map key = {key} value ={value.asInstanceOf[Data].toXml} />
 }

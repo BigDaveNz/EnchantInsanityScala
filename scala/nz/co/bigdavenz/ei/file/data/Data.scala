@@ -8,14 +8,22 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
  * Main data class all others inherit from
  */
 @SerialVersionUID(333)
-abstract class Data(private var value: Any, locked: Boolean) extends Serializable {
+abstract class Data(private var value: Any, private val identifier: String, private var locked: Boolean) extends Serializable {
+
+  val isLocked: Boolean = locked
+  val getValue = value
+  val getXmlIdentifier: String = identifier
 
   def modifyValue(newValue: Any) {
     if (!locked && value.getClass == newValue.getClass) this.value = newValue
     else Communicate.withConsole("Data attempted to be modified with invalid type")
   }
 
-  def isLocked = locked
+  def setLocked(lock: Boolean) {
+    this.locked = lock
+  }
 
-  def getValue = value
+  def toXml: xml.Node
 }
+
+

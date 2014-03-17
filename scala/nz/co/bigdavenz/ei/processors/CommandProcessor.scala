@@ -5,7 +5,6 @@ import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.command.{CommandBase, ICommandSender, WrongUsageException}
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.processors.commands.{Help, Experience, ConvertObject}
-import nz.co.bigdavenz.ei.file.PlayerData
 import nz.co.bigdavenz.ei.core.utils.Utils
 
 /**
@@ -45,13 +44,13 @@ object CommandProcessor extends CommandBase {
             throw new WrongUsageException("/ei help [topic]", new Array[Nothing](0))
           case "xp" => // Wrong usage for xp command //
             throw new WrongUsageException("/ei xp [value] or /ei xp [player] [value]", new Array[Nothing](0))
-          case "brag" => // If the //
-            PlayerData.getField(commandSender.getCommandSenderName, "Misc", "Status", NBTTypeEnum.STRING).toString match {
-              case "Important" =>
-                Communicate.withAllPlayers("To find out more about why " + commandSender.getCommandSenderName + " is a VIP go to: " + " #ShamelessPromotions")
-              case _ =>
-                Communicate.withCommandSender(commandSender, "You obviously aren't important enough to get personal brag rights, If you think this is in error, contact BigDaveNz or submit a pull request on GitHub for your own brag statement")
-            }
+          //          case "brag" => // If the //
+          //            PlayerData.getField(commandSender.getCommandSenderName, "Misc", "Status", NBTTypeEnum.STRING).toString match {
+          //              case "Important" =>
+          //                Communicate.withAllPlayers("To find out more about why " + commandSender.getCommandSenderName + " is a VIP go to: " + " #ShamelessPromotions")
+          //              case _ =>
+          //                Communicate.withCommandSender(commandSender, "You obviously aren't important enough to get personal brag rights, If you think this is in error, contact BigDaveNz or submit a pull request on GitHub for your own brag statement")
+          //            }
           case _ =>
             Communicate.withCommandSender(commandSender, "Invalid command option.")
         }

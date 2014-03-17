@@ -2,14 +2,14 @@ package nz.co.bigdavenz.ei
 
 import cpw.mods.fml.common.{FMLCommonHandler, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLPreInitializationEvent
-import cpw.mods.fml.common.event.FMLServerStartingEvent
+import cpw.mods.fml.common.event.{FMLServerStoppingEvent, FMLPreInitializationEvent, FMLServerStartingEvent}
 import nz.co.bigdavenz.ei.processors.{EventProcessor, CommandProcessor}
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import nz.co.bigdavenz.ei.item.EiItems
 import net.minecraft.creativetab.CreativeTabs
 import nz.co.bigdavenz.ei.lib.ModReference
 import nz.co.bigdavenz.ei.creativeTabs.CreativeTabEi
+import nz.co.bigdavenz.ei.file.MainFile
 
 /**
  * Enchant Insanity
@@ -32,6 +32,10 @@ object EnchantInsanity {
     Communicate.withConsole("Enchant Insanity Loading...")
     FMLCommonHandler.instance().bus().register(new EventProcessor)
     EiItems.init()
-
   }
+
+  @EventHandler def serverStopping(event: FMLServerStoppingEvent) {
+    MainFile.save
+  }
+
 }
