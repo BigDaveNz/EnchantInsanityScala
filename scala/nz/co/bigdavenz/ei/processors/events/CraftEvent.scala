@@ -2,6 +2,7 @@ package nz.co.bigdavenz.ei.processors.events
 
 import nz.co.bigdavenz.ei.core.chat.Communicate
 import cpw.mods.fml.common.gameevent.PlayerEvent
+import nz.co.bigdavenz.ei.file.XmlHelper
 
 /**
  * Created by David J. Dudson on 11/02/14.
@@ -11,10 +12,8 @@ import cpw.mods.fml.common.gameevent.PlayerEvent
 object CraftEvent {
 
   def onCraft(event: PlayerEvent.ItemCraftedEvent) {
-    //    val oldField = PlayerData.getField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName, NBTTypeEnum.INT)
-    //    Communicate.withConsoleDebug(oldField.toString)
+    val oldField = XmlHelper.getPlayerPackage(event.player)
 
-    //ayerData.setField(event.player.getDisplayName, "Craft", event.crafting.getDisplayName,  oldField + event.crafting.stackSize)
     Communicate.withConsoleDebug("Item Crafted and XP Given")
   }
 

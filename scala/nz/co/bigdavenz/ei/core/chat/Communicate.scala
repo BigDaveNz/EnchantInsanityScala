@@ -31,6 +31,7 @@ object Communicate {
   def withPlayer(player: EntityPlayer, message: String) {
     try {
       player.addChatComponentMessage(createChatComponent(message))
+      Communicate.withConsole("Message to: " + player.getDisplayName + " Message: " + message)
     }
     catch {
       case _: NullPointerException =>

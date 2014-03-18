@@ -7,6 +7,7 @@ import nz.co.bigdavenz.ei.item.EiItem
 import net.minecraft.item.ItemStack
 import net.minecraftforge.event.world.WorldEvent
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
+import nz.co.bigdavenz.ei.file.{DataPackage, XmlHelper}
 
 //import nz.co.bigdavenz.ei.file.EnchantInsanityFile
 
@@ -20,7 +21,16 @@ class EventProcessor {
 
   @SubscribeEvent
   def onPlayerLogin(event: PlayerEvent.PlayerLoggedInEvent) {
-    Communicate.withPlayer(event.player, "Welcome to Enchant Insanity Testing!")
+    if (XmlHelper.getPlayersPackage.containsKey(event.player.getDisplayName)) {
+      val tutPack: DataPackage = XmlHelper.getPlayerPackage(event.player, "Tutorials")
+      if (tutPack.getContents("FirstLogin") == false) {
+        Communicate.withPlayer(event.player, "Welcome to Enchant Insanity Testing!")
+        tutPack.setContents("FirstLogin", true)
+      }
+    } else {
+      XmlHelper.addNewPlayerToMainXml(event.player)
+      Communicate.withPlayer(event.player, "Ei Save created for you!")
+    }
   }
 
   @SubscribeEvent
