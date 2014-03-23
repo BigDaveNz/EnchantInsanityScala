@@ -35,9 +35,9 @@ object EnchantInsanity {
     Communicate.withConsole("Enchant Insanity Loading...")
     try
       //XmlHelper.mainPackage =  XML.loadFile("C:/Users/djd_000/Documents/EiData.ei")
-    FMLCommonHandler.instance().bus().register(new EventProcessor)
-    EiItems.init()
-    Communicate.withConsole(Properties.versionNumberString)
+      FMLCommonHandler.instance().bus().register(new EventProcessor)
+      EiItems.init()
+      Communicate.withConsole(Properties.versionNumberString)
   }
 
   @EventHandler def serverStopping(event: FMLServerStoppingEvent) {

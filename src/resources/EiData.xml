@@ -1,0 +1,27 @@
+<DataPackage key="Main">
+    <DataPackage key="Players">
+        <DataPackage key="BigDaveNz">
+            <DataPackage key="Destroy">
+
+            </DataPackage>
+            <DataPackage key="Use">
+
+            </DataPackage>
+            <DataPackage key="Craft">
+
+            </DataPackage>
+            <DataPackage key="Tutorials">
+                <Boolean key="FirstLogin" value="false"/>
+            </DataPackage>
+            <DataPackage key="Unlocks">
+
+            </DataPackage>
+            <DataPackage key="Personal">
+
+            </DataPackage>
+            <DataPackage key="Misc">
+
+            </DataPackage>
+        </DataPackage>
+    </DataPackage>
+</DataPackage>

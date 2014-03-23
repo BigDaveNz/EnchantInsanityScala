@@ -2,7 +2,6 @@ package nz.co.bigdavenz.ei.item
 
 import net.minecraft.item._
 import cpw.mods.fml.common.registry.GameRegistry
-import nz.co.bigdavenz.ei.item.tools._
 import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.EnchantInsanity
