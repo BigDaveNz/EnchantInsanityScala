@@ -12,6 +12,7 @@ import nz.co.bigdavenz.ei.file.XmlHelper
 import nz.co.bigdavenz.ei.item.EiItems
 import nz.co.bigdavenz.ei.lib.ModReference
 import nz.co.bigdavenz.ei.processors.{CommandProcessor, EventProcessor}
+import scala.tools.nsc.Properties
 
 /**
  * Enchant Insanity
@@ -26,15 +27,17 @@ object EnchantInsanity {
   val tabEi: CreativeTabs = new CreativeTabEi(ModReference.modName)
 
   @EventHandler def serverStarting(event: FMLServerStartingEvent) {
-    XmlHelper.setMainXmlContents
     event.registerServerCommand(CommandProcessor)
     Communicate.withConsoleDebug("Command Processor Registered")
   }
 
   @EventHandler def preInit(event: FMLPreInitializationEvent) {
     Communicate.withConsole("Enchant Insanity Loading...")
+    try
+      //XmlHelper.mainPackage =  XML.loadFile("C:/Users/djd_000/Documents/EiData.ei")
     FMLCommonHandler.instance().bus().register(new EventProcessor)
     EiItems.init()
+    Communicate.withConsole(Properties.versionNumberString)
   }
 
   @EventHandler def serverStopping(event: FMLServerStoppingEvent) {

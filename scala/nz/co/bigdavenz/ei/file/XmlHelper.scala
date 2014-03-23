@@ -12,7 +12,7 @@ import nz.co.bigdavenz.ei.core.chat.Communicate
  */
 object XmlHelper {
 
-  val mainPackage = new DataPackage()
+  var mainPackage = new DataPackage()
 
   def getPlayersPackage = mainPackage.getPackage("Players")
 
@@ -43,10 +43,6 @@ object XmlHelper {
       </DataPackage>
       case _ => <Error/>
     }
-  }
-
-  def fromXml(node: xml.Node) {
-
   }
 
   def getTutorials: DataPackage = {
