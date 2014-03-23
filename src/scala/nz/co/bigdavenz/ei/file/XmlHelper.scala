@@ -1,9 +1,10 @@
 package nz.co.bigdavenz.ei.file
 
-import scala.collection.mutable.ListBuffer
+import scala.xml.transform.{RewriteRule, RuleTransformer}
 
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.core.chat.Communicate
+import xml._
 
 /**
  * Created by David J. Dudson on 17/03/14.
@@ -14,77 +15,82 @@ object XmlHelper {
 
   var mainPackage = new DataPackage()
 
-  def getPlayersPackage = mainPackage.getPackage("Players")
+  def getPlayersPackage: DataPackage = mainPackage.getSingleOfType[DataPackage]("Players")
 
-  def getWorldsPackage = mainPackage.getPackage("Worlds")
+  def getWorldsPackage: DataPackage = mainPackage.getSingleOfType[DataPackage]("Worlds")
 
-  def getMiscPackage = mainPackage.getPackage("Misc")
+  def getMiscPackage: DataPackage = mainPackage.getSingleOfType[DataPackage]("Misc")
 
-  private def getNested(pack: DataPackage): ListBuffer[xml.Node] = {
-    val nestedElements: ListBuffer[xml.Node] = new ListBuffer
-    pack.getMap.foreach {
-      case (key, value) => nestedElements.append(toXml(key, value))
+  private def getNested(key: String, pack: DataPackage): Node = {
+    val oldXML: Node = toElem(key)
+    var newXML: Node = toElem(key)
+    pack.foreach {
+      case (k: String, v: Any) =>
+        newXML = new RuleTransformer(new AddChildrenTo(newXML.label, toXml(k, v))).transform(oldXML).head
     }
-    nestedElements
+    newXML
   }
 
-  def toXml(key: String, value: Any): xml.Node = {
+  def toXml(key: String, value: Any): Node = {
     Communicate.withConsole("XML Serialisation for: " + key + "Value: " + value.getClass.toString)
     value match {
-      case _: String => <String key={key} value={value.toString}/>
-      case _: Int => <Int key={key} value={value.toString}/>
-      case _: Boolean => <Boolean key={key} value={value.toString}/>
-      case _: Float => <Float key={key} value={value.toString}/>
-      case _: Double => <Double key={key} value={value.toString}/>
-      case _: Short => <Short key={key} value={value.toString}/>
-      case _: Long => <Long key={key} value={value.toString}/>
-      case _: DataPackage => <DataPackage key={key}>
-        {getNested(value.asInstanceOf[DataPackage])}
-      </DataPackage>
+      case _: DataPackage => getNested(key, value.asInstanceOf[DataPackage])
+      case _ if testAnyVal(value) => toElem(value.getClass.toString, value)
       case _ => <Error/>
     }
   }
 
+  def addChild(n: Node, newChild: Node) = n match {
+    case Elem(prefix, label, attribs, scope, child@_*) =>
+      Elem(prefix, label, attribs, scope, child ++ newChild: _*)
+    case _ => sys.error("Can only add children to elements!")
+  }
+
+  class AddChildrenTo(label: String, newChild: Node) extends RewriteRule {
+    override def transform(n: Node) = n match {
+      case n@Elem(_, `label`, _, _, _*) => addChild(n, newChild)
+      case other => other
+    }
+  }
+
+  def testAnyVal[T: Manifest](t: T) = manifest[T] <:< manifest[AnyVal]
+
+  def toElem(tag: String, value: Any = null, tagInner: Node = null): Elem = {
+    Elem(null, tag, null, TopScope, tagInner)
+  }
+
   def getTutorials: DataPackage = {
     val tutorials: DataPackage = new DataPackage
-    tutorials.setContents("FirstLogin", false)
+    tutorials.getHeadOfType[Boolean]("FirstLogin")
     tutorials
   }
 
   def setMainXmlContents {
-    mainPackage.setContents("Players", new DataPackage())
-    mainPackage.setContents("Worlds", new DataPackage())
-    mainPackage.setContents("Misc", new DataPackage())
+    mainPackage.getSingleOfType[DataPackage]("Players")
+    mainPackage.getSingleOfType[DataPackage]("Worlds")
+    mainPackage.getSingleOfType[DataPackage]("Misc")
   }
 
   def getPlayerPackage(player: EntityPlayer): DataPackage = {
-    getPlayerPackage(player, "Root")
+    getPlayersPackage.getSingleOfType[DataPackage](player.getDisplayName)
   }
 
   def getPlayerPackage(player: EntityPlayer, subPackage: String): DataPackage = {
-    subPackage match {
-      case "Root" =>
-        getPlayersPackage.getPackage(player.getDisplayName)
-      case "Initial" =>
-        getPlayersPackage.setContents(player.getDisplayName, new DataPackage())
-        getPlayersPackage.getPackage(player.getDisplayName)
-      case _ =>
-        getPlayersPackage.getPackage(player.getDisplayName).getPackage(subPackage)
-    }
+    getPlayersPackage.getSingleOfType[DataPackage](player.getDisplayName).getSingleOfType[DataPackage](subPackage)
   }
 
   def addNewPlayerToMainXml(player: EntityPlayer) {
+
     val newPlayerPackage = getPlayerPackage(player, "Initial")
 
-    newPlayerPackage.setContents("Destroy", new DataPackage)
-    newPlayerPackage.setContents("Use", new DataPackage)
-    newPlayerPackage.setContents("Craft", new DataPackage)
-    newPlayerPackage.setContents("Personal", new DataPackage)
-    newPlayerPackage.setContents("Unlocks", new DataPackage)
-    newPlayerPackage.setContents("Misc", new DataPackage)
-    newPlayerPackage.setContents("Tutorials", getTutorials)
+    newPlayerPackage.getSingleOfType[DataPackage]("Destroy")
+    newPlayerPackage.getSingleOfType[DataPackage]("Use")
+    newPlayerPackage.getSingleOfType[DataPackage]("Craft")
+    newPlayerPackage.getSingleOfType[DataPackage]("Personal")
+    newPlayerPackage.getSingleOfType[DataPackage]("Unlocks")
+    newPlayerPackage.getSingleOfType[DataPackage]("Misc")
+    newPlayerPackage.getSingleOfType[DataPackage]("Tutorials")
     Communicate.withConsole("Player Data Created for: " + player.getDisplayName)
-
   }
 
 }

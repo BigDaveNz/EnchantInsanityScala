@@ -12,15 +12,15 @@ import nz.co.bigdavenz.ei.file.XmlHelper
 object CraftEvent {
 
   def onCraft(event: PlayerEvent.ItemCraftedEvent) {
-    val oldField: Int = XmlHelper.getPlayerPackage(event.player, "Craft").getContents(event.crafting.getDisplayName).asInstanceOf[Int]
-    XmlHelper.getPlayerPackage(event.player, "Craft").setContents(event.crafting.getDisplayName, oldField + event.crafting.stackSize)
+    val oldField: Int = XmlHelper.getPlayerPackage(event.player, "Craft").getHeadOfType[Int](event.crafting.getDisplayName)
+    XmlHelper.getPlayerPackage(event.player, "Craft").addValueToArrayOfType[Int](event.crafting.getDisplayName, oldField + event.crafting.stackSize)
 
     Communicate.withConsoleDebug("Item Crafted: " + event.crafting.getDisplayName + " NewXpAmount: " + oldField + event.crafting.stackSize)
   }
 
   def onSmelt(event: PlayerEvent.ItemSmeltedEvent) {
-    val oldField: Int = XmlHelper.getPlayerPackage(event.player, "Craft").getContents(event.smelting.getDisplayName).asInstanceOf[Int]
-    XmlHelper.getPlayerPackage(event.player, "Craft").setContents(event.smelting.getDisplayName, oldField + event.smelting.stackSize)
+    val oldField: Int = XmlHelper.getPlayerPackage(event.player, "Craft").getHeadOfType[Int](event.smelting.getDisplayName)
+    XmlHelper.getPlayerPackage(event.player, "Craft").addValueToArrayOfType[Int](event.smelting.getDisplayName, oldField + event.smelting.stackSize)
 
     Communicate.withConsoleDebug("Item Smelted: " + event.smelting.getDisplayName + " NewXpAmount: " + oldField + event.smelting.stackSize)
   }

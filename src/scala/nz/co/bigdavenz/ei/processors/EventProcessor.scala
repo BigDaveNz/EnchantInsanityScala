@@ -21,11 +21,11 @@ class EventProcessor {
 
   @SubscribeEvent
   def onPlayerLogin(event: PlayerEvent.PlayerLoggedInEvent) {
-    if (XmlHelper.getPlayersPackage.containsKey(event.player.getDisplayName)) {
-      val tutPack: DataPackage = XmlHelper.getPlayerPackage(event.player, "Tutorials")
-      if (tutPack.getContents("FirstLogin") == false) {
+    if (XmlHelper.getPlayersPackage.contains(event.player.getDisplayName)) {
+      def tutPack: DataPackage = XmlHelper.getPlayerPackage(event.player, "Tutorials")
+      if (tutPack.getArrayOfType("FirstLogin") == false) {
         Communicate.withPlayer(event.player, "Welcome to Enchant Insanity Testing!")
-        tutPack.setContents("FirstLogin", true)
+        tutPack.addValueToArrayOfType("FirstLogin", true)
       }
     } else {
       XmlHelper.addNewPlayerToMainXml(event.player)

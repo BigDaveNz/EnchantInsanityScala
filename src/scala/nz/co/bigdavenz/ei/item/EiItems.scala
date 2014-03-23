@@ -6,6 +6,7 @@ import nz.co.bigdavenz.ei.lib.ModReference
 import net.minecraft.entity.player.EntityPlayer
 import nz.co.bigdavenz.ei.EnchantInsanity
 import nz.co.bigdavenz.ei.item.weapons.{EiItemWeapon, EnchantedSword}
+import nz.co.bigdavenz.ei.item.tools._
 
 /**
  * Created by David J. Dudson on 11/01/14.
