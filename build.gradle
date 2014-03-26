@@ -12,7 +12,6 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
-        compile 'com.github.scalaz:scalaz:v7.1.0-M6'
     }
 }
 

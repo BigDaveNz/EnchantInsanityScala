@@ -19,6 +19,7 @@ class DataPackage() extends mutable.HashMap[String, Any] {
   implicit val l: Long = 0
   implicit val s: String = ""
   implicit val p: DataPackage = new DataPackage
+  //Todo Fix infinite recursion with DataPackage
 
   //get or set as default(returning default value) HashMap value based on value Higher Type
   private def getOfType[T](key: String)(implicit default: ClassTag[T]): Either[ArrayBuffer[T], T] = {
